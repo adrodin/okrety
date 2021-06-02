@@ -33,9 +33,11 @@ class Field(Button):
             self._field_state = Field_states.SHIP
             if self._player_type ==Players_type.PLAYER:
                 super().change_color(SHIP_COLOR,self._window)
+            return 1
         else:
             self._field_state = Field_states.EMPTY
             super().change_color(SEA_COLOR,self._window)
+            return -1
 
 
 
