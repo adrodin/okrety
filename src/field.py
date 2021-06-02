@@ -1,5 +1,5 @@
 from src.button import Button
-from constants.colors import SEA_COLOR
+from constants.colors import SEA_COLOR,SHIP_COLOR,HIT_SHIP_COLOR,HIT_SEA_COLOR
 from enum import Enum
 
 class Field(Button):
@@ -13,6 +13,29 @@ class Field(Button):
 
     def get_field_state(self):
         return self._field_state
+
+    def hit(self):
+        if self._can_shoot is True:
+            if self._field_state == Field_states.EMPTY:
+                self._can_shoot = False
+                super().change_color(HIT_SEA_COLOR,self._window)
+                self._field_state = Field_states.HIT_EMPTY
+                return 0
+            if self._field_state == Field_states.SHIP:
+                self._can_shoot = False
+                super().change_color(HIT_SHIP_COLOR,self._window)
+                self._field_state = Field_states.HIT_SHIP
+                return 1
+        return -1
+
+    def draw_ship_segment(self):
+        if self._field_state == Field_states.EMPTY:
+            self._field_state = Field_states.SHIP
+            if self._player_type ==Players_type.PLAYER:
+                super().change_color(SHIP_COLOR,self._window)
+        else:
+            self._field_state = Field_states.EMPTY
+            super().change_color(SEA_COLOR,self._window)
 
 
 

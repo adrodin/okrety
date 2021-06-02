@@ -15,6 +15,11 @@ def main():
     exit_button = Button(1280,30,100,50,text='Wyjście')
     reset_button = Button(1150,30,100,50,text='Reset')
     fie = Field(50,50,WINDOW,Players_type.BOT)
+    fie2 = Field(90,50,WINDOW,Players_type.PLAYER)
+    fie2.draw_ship_segment()
+    fie2.hit()
+    fie.draw_ship_segment()
+
     exit_button.draw(WINDOW)
     reset_button.draw(WINDOW)
     #asd.draw(Window)
