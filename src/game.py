@@ -11,24 +11,40 @@ pygame.init()
 WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
 WINDOW.fill(BACKGROUND_COLOR)
 pygame.display.set_caption("Okrety")
+exit_button = Button(1200, 30, 100, 50, text='Wyjście')
+reset_button = Button(1050, 30, 100, 50, text='Reset')
+generate_button = Button(900,30,100,50, text="Generuj")
+start_button = Button(750,30,100,50, text="Start")
+sniper_button = Button(600,30,120,50, text="Sniper Mode",color=(0,255,0),text_color=(0,0,0))
+medium_button = Button(450,30,140,50, text="Medium Mode",color=(0,255,0),text_color=(0,0,0))
+easy_button = Button(300,30,120,50, text="Easy Mode",color=(255,0,0),text_color=(0,0,0))
+player_label = Button(1050, 560, 100, 50, text='Gracz')
+bot_label =  Button(550, 560, 100, 50, text='Bot')
+
+generate_button.draw(WINDOW)
+exit_button.draw(WINDOW)
+reset_button.draw(WINDOW)
+start_button.draw(WINDOW)
+sniper_button.draw(WINDOW)
+easy_button.draw(WINDOW)
+medium_button.draw(WINDOW)
+player_label.draw(WINDOW)
+bot_label.draw(WINDOW)
 
 class Game:
     @staticmethod
     def run():
         run = True
         clock = pygame.time.Clock()
-        exit_button = Button(1280, 30, 100, 50, text='Wyjście')
-        reset_button = Button(1150, 30, 100, 50, text='Reset')
+
         board = Board(400, 150, WINDOW, Players_type.BOT)
         board2 = Board(900, 150, WINDOW, Players_type.PLAYER)
 
-        exit_button.draw(WINDOW)
-        reset_button.draw(WINDOW)
+
         # asd.draw(Window)
         while run:
             clock.tick(FPS)
             for event in pygame.event.get():
-
                 if event.type == pygame.QUIT:
                     run = False
 
@@ -39,19 +55,13 @@ class Game:
 
                     if exit_button.is_mouse_over(pygame.mouse.get_pos()):
                         run = False
-                    if reset_button.is_mouse_over(pygame.mouse.get_pos()):
+                    if generate_button.is_mouse_over(pygame.mouse.get_pos()):
                         print(board2.automatic_ships_generator())
+                    if reset_button.is_mouse_over(pygame.mouse.get_pos()):
                         pass
-                board2.automatic_ships_generator()
-                pygame.time.wait(1000)
-                bot = EasyMode(board2.get_ships())
-                pygame.display.update()
-                for i in range(20):
-                    pygame.time.wait(1000)
-                    x, y = bot.shot()
-                    board2.shot(x,y)
-                    pygame.display.update()
-                pygame.time.wait(1000)
+
+
+
             pygame.display.update()
 
         pygame.quit()
