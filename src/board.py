@@ -16,7 +16,8 @@ class Board:
             self._can_interact = False
         self._fields = [[Field(x_start+j*40,y_start+i*40,window,player_type) for j in range(10)]for i in range(10)]
         self._ships = []
-
+    def get_ships(self):
+        return self._ships
     def draw_ship(self,position):
         if self._state == Board_state.PREPARE and self._player_type == Players_type.PLAYER:
             for row in self._fields:
@@ -26,7 +27,7 @@ class Board:
 
     def check_ships_position(self):
 
-        i_was_here = [ ['no' for j in range(10) ] for i in range(10)]
+        i_was_here = [ ['no' for _ in range(10) ] for i in range(10)]
         ships_pattern = {
             4 : 1,
             3 : 2,
@@ -104,8 +105,7 @@ class Board:
         return len(self._ships == 0)
 
     def automatic_ships_generator(self):
-        ok = False
-        it = 0
+
 
         self._fields = [[Field(self._x_start + j * 40, self._y_start + i * 40, self._window, self._player_type) for j in range(10)] for i in range(10)]
         self._ships = []
@@ -151,7 +151,7 @@ class Board:
     def can_add_ship(self,x,y,z,size):
         if z == 0:
             for i in range(-1, size+1):
-                if x + i >= 0 and x + i < 10:
+                if 0 <= x + i < 10:
                     if self._fields[x + i][y].get_field_state() == Field_states.SHIP:
                         return False
                     if y+1 < 10:
@@ -163,7 +163,7 @@ class Board:
 
         else:
             for i in range(-1, size+1):
-                if y + i >= 0 and y + i < 10:
+                if 0 <= y + i < 10:
                     if self._fields[x][y + i].get_field_state() == Field_states.SHIP:
                         return False
                     if x+1< 10:
@@ -181,6 +181,13 @@ class Board:
         else:
             for i in range(size):
                 self._fields[x][y + i].draw_ship_segment()
+
+    def shot(self,x,y):
+        response = self._fields[x][y].hit()
+        if response == 1:
+            self._ships.remove((x,y))
+        return response
+
 
 class Board_state(Enum):
     PREPARE = 0

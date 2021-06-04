@@ -4,6 +4,8 @@ from constants.window import HEIGHT,WIDTH,FPS
 from constants.colors import BACKGROUND_COLOR
 from src.field import Field,Players_type
 from src.board import Board
+from src.bot.sniperMode import SniperMode
+from src.bot.easyMode import EasyMode
 
 pygame.init()
 WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -25,7 +27,6 @@ class Game:
         # asd.draw(Window)
         while run:
             clock.tick(FPS)
-
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
@@ -41,6 +42,16 @@ class Game:
                     if reset_button.is_mouse_over(pygame.mouse.get_pos()):
                         print(board2.automatic_ships_generator())
                         pass
+                board2.automatic_ships_generator()
+                pygame.time.wait(1000)
+                bot = EasyMode(board2.get_ships())
+                pygame.display.update()
+                for i in range(20):
+                    pygame.time.wait(1000)
+                    x, y = bot.shot()
+                    board2.shot(x,y)
+                    pygame.display.update()
+                pygame.time.wait(1000)
             pygame.display.update()
 
         pygame.quit()
