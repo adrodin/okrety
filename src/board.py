@@ -144,6 +144,8 @@ class Board:
                 success = self.can_add_ship(x, y, z, 1)
                 if success:
                     self.add_ship(x, y, z, 1)
+        self.check_ships_position()
+        print(len(self._ships))
         return True
 
     def can_add_ship(self,x,y,z,size):
