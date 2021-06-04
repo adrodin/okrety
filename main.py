@@ -37,7 +37,7 @@ def main():
                 if exit_button.is_mouse_over(pygame.mouse.get_pos()):
                     run = False
                 if reset_button.is_mouse_over(pygame.mouse.get_pos()):
-                    print(board2.check_ships_position())
+                    print(board2.automatic_ships_generator())
                     pass
         pygame.display.update()
 
