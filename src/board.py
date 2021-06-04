@@ -6,6 +6,7 @@ class Board:
     def __init__(self,x_start,y_start,window,player_type):
         self._state = Board_state.PREPARE
         self._player_type = player_type
+        self._window = window
         if self._player_type == Players_type.PLAYER:
             self._can_interact = True
         else:
@@ -29,7 +30,6 @@ class Board:
             2 : 3,
             1 : 4
         }
-        ship_len = 0
         for i in range(10):
             for j in range(10):
                 print(f'xd {i} {j}')
@@ -43,9 +43,7 @@ class Board:
                         for k in range(1,5):
                             if j+k < 10:
                                 print(k)
-                                if i_was_here[i][j+k] == 'yes':
-                                    print(1)
-                                    print(f'cord: {i} {j+k}')
+                                if i_was_here[i][j+k] == 'yes' and self._fields[i][j+k].get_field_state() == Field_states.SHIP:
                                     return False
                                 if self._fields[i][j+k].get_field_state() == Field_states.SHIP and j != 9:
                                     row = True
@@ -54,16 +52,13 @@ class Board:
                                     ship_len += 1
                                 else:
                                     break
-                        #TU CO NIE DZIALA
                         #statki w kolumnie
                         for k in range(1,5):
                             if i + k < 10:
-                                if i_was_here[i+k][j] == 'yes':
-                                    print(2)
+                                if i_was_here[i+k][j] == 'yes' and self._fields[i+k][j].get_field_state() == Field_states.SHIP:
                                     return False
                                 if self._fields[i+k][j].get_field_state() == Field_states.SHIP and i != 9:
                                     if row is True:
-                                        print(3)
                                         return False
                                     i_was_here[i+k][j] = 'yes'
                                     self._ships.append((i+k,j))
@@ -72,43 +67,35 @@ class Board:
                                     break
 
                         if ship_len == 5:
-                            print(4)
                             return False
                         ships_pattern[ship_len] -= 1
-                        #ALBO TU
                         #nie stykanie się nastepnych
                         for k in range(-1,ship_len+1):
                             if row is True:
                                 if k+j != -1 and k+j != 10 and i != 9:
                                     if self._fields[i+1][j+k].get_field_state() == Field_states.SHIP:
-                                        print(5)
                                         return False
                                     else:
                                         i_was_here[i+1][j+k] = 'yes'
                             else:
                                 if k+i != -1 and k+i != 10 and j != 9:
                                     if self._fields[i+k][j+1].get_field_state() == Field_states.SHIP:
-                                        print(6)
                                         return False
                                     else:
                                         i_was_here[i+k][j+1] = 'yes'
                                 if k+i != -1 and k+i != 10 and j != 0:
                                     if self._fields[i+k][j-1].get_field_state() == Field_states.SHIP:
-                                        print(7)
                                         return False
                                     else:
                                         i_was_here[i+k][j-1] = 'yes'
+
         if ships_pattern[1] != 0:
-            print(8)
             return False
         if ships_pattern[2] != 0:
-            print(9)
             return False
         if ships_pattern[3] != 0:
-            print(10)
             return False
         if ships_pattern[4] != 0:
-            print(11)
             return False
         return True
 
