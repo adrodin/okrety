@@ -1,12 +1,13 @@
 from src.field import Field
 from src.board import Board
+from src.bot.bot import Bot
 
-class SniperMode:
+class SniperMode(Bot):
     def __init__(self,ships):
         """
         Inicjalizacja snajpera
         """
-        self._ships = ships
+        super().__init__(ships)
 
     def shot(self):
         """

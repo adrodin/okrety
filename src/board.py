@@ -34,7 +34,7 @@ class Board:
 
     def shot_i(self,position):
         """
-        Analiza strzału
+        Analiza strzału oddanego z interfejsu graficznego
         """
         for x in range(10):
             for y in range(10):
@@ -48,12 +48,8 @@ class Board:
         """
         self._ships = []
         i_was_here = [ ['no' for _ in range(10) ] for i in range(10)]
-        ships_pattern = {
-            4 : 1,
-            3 : 2,
-            2 : 3,
-            1 : 4
-        }
+        ships_pattern = { 4-i : i+1 for i in range(4) }
+
         for i in range(10):
             for j in range(10):
                 if i_was_here[i][j] == 'no':
@@ -127,13 +123,19 @@ class Board:
                                     else:
                                         i_was_here[i+k][j-1] = 'yes'
 
-        if ships_pattern[1] != 0:
+        compare = lambda x: ships_pattern[x] != 0
+
+        #if ships_pattern[1] != 0:
+        if compare(1):
             return False
-        if ships_pattern[2] != 0:
+        if compare(2):
+        #if ships_pattern[2] != 0:
             return False
-        if ships_pattern[3] != 0:
+        if compare(3):
+        #if ships_pattern[3] != 0:
             return False
-        if ships_pattern[4] != 0:
+        if compare(4):
+        #if ships_pattern[4] != 0:
             return False
         return True
 
@@ -208,11 +210,12 @@ class Board:
         """
         Wygenerowanie losowych statków
         """
+        rng = lambda x: random.randrange(11-x)
         for _ in range(numbers):
             success = False
             while not success:
-                x = random.randrange(11-size)
-                y = random.randrange(11-size)
+                x = rng(size)
+                y = rng(size)
                 z = random.randrange(2)
                 success = self.can_add_ship(x, y, z, size)
                 if success:

@@ -1,19 +1,14 @@
 import random
 from src.field import Field
 from src.board import Board
+from src.bot.bot import Bot
 
 
-class EasyMode:
+class EasyMode(Bot):
     def __init__(self,ships):
         """
         Inicjalizacja łatwego bota
         """
-        self._ships = ships
+        super().__init__(ships)
 
-    def shot(self):
-        """
-        Zwraca następny strzał łatwego bota
-        """
-        x = random.randrange(10)
-        y = random.randrange(10)
-        return x,y
+

@@ -1,13 +1,15 @@
 import random
 from src.field import Field
 from src.board import Board
+from src.bot.bot import Bot
 
-class MediumMode:
+
+class MediumMode(Bot):
     def __init__(self,ships):
         """
         Inicjalizacja trudnego bota
         """
-        self._ships = ships
+        super().__init__(ships)
         self._next_shot = []
 
     def shot(self):
@@ -15,8 +17,7 @@ class MediumMode:
         Zwraca następny strzał bota
         """
         if len(self._next_shot) == 0:
-            x = random.randrange(10)
-            y = random.randrange(10)
+            x, y = super().shot()
             self._next_shot.append((x,y))
             if (x, y) in self._ships:
                 for i in range(3):

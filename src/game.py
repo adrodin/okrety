@@ -24,6 +24,13 @@ player_label = Button(1050, 560, 100, 50, text='Gracz')
 bot_label =  Button(550, 560, 100, 50, text='Bot')
 message_window = Button(50,150,300,50,text='Ułóż swoją flotę',color=BLACK,text_color=WHITE)
 
+change_dificulty = lambda easy,medium,imposible:{
+    easy_button.change_color(easy,WINDOW),
+    medium_button.change_color(medium,WINDOW),
+    sniper_button.change_color(imposible,WINDOW)
+}
+
+
 generate_button.draw(WINDOW)
 exit_button.draw(WINDOW)
 reset_button.draw(WINDOW)
@@ -80,19 +87,13 @@ class Game:
 
                         if medium_button.is_mouse_over(mouse_position):
                             mode = GameMode.MEDIUM
-                            medium_button.change_color(RED,WINDOW)
-                            easy_button.change_color(YELLOW,WINDOW)
-                            sniper_button.change_color(YELLOW,WINDOW)
+                            change_dificulty(YELLOW,RED,YELLOW)
                         if easy_button.is_mouse_over(mouse_position):
                             mode = GameMode.EASY
-                            medium_button.change_color(YELLOW,WINDOW)
-                            easy_button.change_color(RED,WINDOW)
-                            sniper_button.change_color(YELLOW,WINDOW)
+                            change_dificulty(RED,YELLOW,YELLOW)
                         if sniper_button.is_mouse_over(mouse_position):
                             mode = GameMode.SNIPER
-                            medium_button.change_color(YELLOW,WINDOW)
-                            easy_button.change_color(YELLOW,WINDOW)
-                            sniper_button.change_color(RED,WINDOW)
+                            change_dificulty(YELLOW,YELLOW,RED)
 
                     if state == GameState.BATTLE:
                         if round == RoundMode.PLAYER:
