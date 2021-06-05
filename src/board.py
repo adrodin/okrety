@@ -105,8 +105,6 @@ class Board:
         return len(self._ships == 0)
 
     def automatic_ships_generator(self):
-
-
         self._fields = [[Field(self._x_start + j * 40, self._y_start + i * 40, self._window, self._player_type) for j in range(10)] for i in range(10)]
         self._ships = []
         #---4x1
