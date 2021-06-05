@@ -55,11 +55,10 @@ class Game:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_position = pygame.mouse.get_pos()
-                    print(mouse_position)
                     if state == GameState.PREPARE:
                         player_board.draw_ship(mouse_position)
                         if generate_button.is_mouse_over(mouse_position):
-                            print(player_board.automatic_ships_generator())
+                            player_board.automatic_ships_generator()
                         if start_button.is_mouse_over(mouse_position):
                             if player_board.check_ships_position():
                                 state = GameState.BATTLE
@@ -110,9 +109,7 @@ class Game:
 
 
             if state == GameState.BATTLE and round == RoundMode.BOT:
-                print('bot strzela')
                 x, y = bot.shot()
-
                 if player_board.shot(x, y) == 0:
                     round = RoundMode.PLAYER
                 if player_board.check_win():

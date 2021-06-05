@@ -116,7 +116,6 @@ class Board:
         return True
 
     def check_win(self):
-        print(len(self._ships))
         return len(self._ships) == 0
 
     def automatic_ships_generator(self):
