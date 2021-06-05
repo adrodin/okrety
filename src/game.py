@@ -2,7 +2,7 @@ import pygame
 from src.button import Button
 from constants.window import HEIGHT,WIDTH,FPS
 from constants.colors import BACKGROUND_COLOR,WHITE,BLACK,YELLOW,RED
-from src.field import Field,Players_type
+from src.field import Field,PlayersType
 from src.board import Board
 from src.bot.sniperMode import SniperMode
 from src.bot.easyMode import EasyMode
@@ -39,14 +39,17 @@ class Game:
 
     @staticmethod
     def run():
+        """
+        Główna pętla gry
+        """
         run = True
         clock = pygame.time.Clock()
         state = GameState.PREPARE
         mode = GameMode.EASY
 
 
-        bot_board = Board(400, 150, WINDOW, Players_type.BOT)
-        player_board = Board(900, 150, WINDOW, Players_type.PLAYER)
+        bot_board = Board(400, 150, WINDOW, PlayersType.BOT)
+        player_board = Board(900, 150, WINDOW, PlayersType.PLAYER)
 
         while run:
             clock.tick(FPS)
@@ -105,8 +108,8 @@ class Game:
                     if reset_button.is_mouse_over(mouse_position):
                         message_window.change_text("Ułóż swoją flotę",WINDOW)
                         state = GameState.PREPARE
-                        bot_board = Board(400, 150, WINDOW, Players_type.BOT)
-                        player_board = Board(900, 150, WINDOW, Players_type.PLAYER)
+                        bot_board = Board(400, 150, WINDOW, PlayersType.BOT)
+                        player_board = Board(900, 150, WINDOW, PlayersType.PLAYER)
 
 
             if state == GameState.BATTLE and round == RoundMode.BOT:
@@ -132,6 +135,6 @@ class GameMode(Enum):
     MEDIUM = 1
     SNIPER = 2
 
-class RoundMode:
+class RoundMode(Enum):
     PLAYER = 0
     BOT = 1

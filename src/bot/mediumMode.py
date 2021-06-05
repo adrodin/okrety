@@ -4,10 +4,16 @@ from src.board import Board
 
 class MediumMode:
     def __init__(self,ships):
+        """
+        Inicjalizacja trudnego bota
+        """
         self._ships = ships
         self._next_shot = []
 
     def shot(self):
+        """
+        Zwraca następny strzał bota
+        """
         if len(self._next_shot) == 0:
             x = random.randrange(10)
             y = random.randrange(10)
@@ -33,8 +39,5 @@ class MediumMode:
                         self._next_shot.append((x,y-i-1))
                     else:
                         break
-        answear = self._next_shot.pop(0)
-        print(f'{answear[0]} {answear[1]}')
-        return answear
+        return self._next_shot.pop(0)
 
-        #return self._ships[0][0],self._ships[0][1]

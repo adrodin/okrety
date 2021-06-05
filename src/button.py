@@ -4,6 +4,9 @@ from constants.colors import BUTTON_COLOR,BUTTON_TEXT_COLOR
 
 class Button:
     def __init__(self,x,y,width,height,color=BUTTON_COLOR,text='',text_color=BUTTON_TEXT_COLOR ):
+        """
+        Inicjalizacja przycisku
+        """
         self._x = x
         self._y = y
         self._text = text
@@ -14,11 +17,17 @@ class Button:
 
 
     def is_mouse_over(self,mouse_position):
+        """
+        Sprawdzenie pozycji myszy względem przycisku
+        """
         is_mouse_inside_x = self._x < mouse_position[0] < self._x + self._width
         is_mouse_inside_y = self._y < mouse_position[1] < self._y + self._height
         return is_mouse_inside_x and is_mouse_inside_y
 
     def draw(self, window):
+        """
+        Narysowanie przycisku
+        """
         pygame.draw.rect(window, self._color, (self._x, self._y, self._width, self._height), 0)
         if self._text != '':
             font = pygame.font.SysFont('Arial', 25)
@@ -27,14 +36,23 @@ class Button:
 
 
     def change_color(self,color,window):
+        """
+        Zmiana koloru
+        """
         self._color = color
         self.draw(window)
 
     def change_text(self,new_text,window):
+        """
+        Zmiana tekstu
+        """
         self._text = new_text
         self.draw(window)
 
     def change_text_with_new_color(self,new_text,new_color,window):
+        """
+        Zmiana tekstu wraz z kolorem
+        """
         self._text = new_text
         self._text_color = new_color
         self.draw(window)
