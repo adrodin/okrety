@@ -8,13 +8,8 @@ class Board:
     def __init__(self,x_start,y_start,window,player_type):
         self._x_start = x_start
         self._y_start = y_start
-        self._state = Board_state.PREPARE
         self._player_type = player_type
         self._window = window
-        if self._player_type == Players_type.PLAYER:
-            self._can_interact = True
-        else:
-            self._can_interact = False
         self._fields = [[Field(x_start+j*40,y_start+i*40,window,player_type) for j in range(10)]for i in range(10)]
         self._ships = []
 
@@ -22,7 +17,7 @@ class Board:
         return self._ships
 
     def draw_ship(self,position):
-        if self._state == Board_state.PREPARE and self._player_type == Players_type.PLAYER:
+        if self._player_type == Players_type.PLAYER:
             for row in self._fields:
                 for e in row:
                     if e.is_mouse_over(position):
@@ -127,41 +122,9 @@ class Board:
     def automatic_ships_generator(self):
         self._fields = [[Field(self._x_start + j * 40, self._y_start + i * 40, self._window, self._player_type) for j in range(10)] for i in range(10)]
         self._ships = []
-        #---4x1
-        x = random.randrange(7)
-        y = random.randrange(7)
-        z = random.randrange(7)
-        self.add_ship(x,y,z,4)
-        #3x2
-        for _ in range(2):
-            success = False
-            while not success:
-                x = random.randrange(8)
-                y = random.randrange(8)
-                z = random.randrange(2)
-                success = self.can_add_ship(x,y,z,3)
-                if success:
-                     self.add_ship(x,y,z,3)
-        #2x3
-        for _ in range(3):
-            success = False
-            while not success:
-                x = random.randrange(9)
-                y = random.randrange(9)
-                z = random.randrange(2)
-                success = self.can_add_ship(x,y,z,2)
-                if success:
-                    self.add_ship(x,y,z,2)
-        #1x4
-        for _ in range(4):
-            success = False
-            while not success:
-                x = random.randrange(10)
-                y = random.randrange(10)
-                z = random.randrange(2)
-                success = self.can_add_ship(x, y, z, 1)
-                if success:
-                    self.add_ship(x, y, z, 1)
+        for i in range(4):
+            self.generate_random_ship(4-i,i+1)
+
         self.check_ships_position()
         return True
 
@@ -204,6 +167,17 @@ class Board:
         if response == 1:
             self._ships.remove((x,y))
         return response
+
+    def generate_random_ship(self,size,numbers):
+        for _ in range(numbers):
+            success = False
+            while not success:
+                x = random.randrange(11-size)
+                y = random.randrange(11-size)
+                z = random.randrange(2)
+                success = self.can_add_ship(x, y, z, size)
+                if success:
+                    self.add_ship(x, y, z, size)
 
 
 class Board_state(Enum):

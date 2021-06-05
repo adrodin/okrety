@@ -1,7 +1,7 @@
 import pygame
 from src.button import Button
 from constants.window import HEIGHT,WIDTH,FPS
-from constants.colors import BACKGROUND_COLOR
+from constants.colors import BACKGROUND_COLOR,WHITE,BLACK,YELLOW,RED
 from src.field import Field,Players_type
 from src.board import Board
 from src.bot.sniperMode import SniperMode
@@ -16,12 +16,12 @@ exit_button = Button(1200, 30, 100, 50, text='Wyjście')
 reset_button = Button(1050, 30, 100, 50, text='Reset')
 generate_button = Button(900,30,100,50, text="Generuj")
 start_button = Button(750,30,100,50, text="Start")
-sniper_button = Button(600,30,120,50, text="Sniper Mode",color=(255,255,0),text_color=(0,0,0))
-medium_button = Button(440,30,140,50, text="Medium Mode",color=(255,255,0),text_color=(0,0,0))
-easy_button = Button(300,30,120,50, text="Easy Mode",color=(255,0,0),text_color=(0,0,0))
+sniper_button = Button(600,30,120,50, text="Sniper Mode",color=YELLOW,text_color=BLACK)
+medium_button = Button(440,30,140,50, text="Medium Mode",color=YELLOW,text_color=BLACK)
+easy_button = Button(300,30,120,50, text="Easy Mode",color=RED,text_color=BLACK)
 player_label = Button(1050, 560, 100, 50, text='Gracz')
 bot_label =  Button(550, 560, 100, 50, text='Bot')
-message_window = Button(50,150,300,50,text='Ułóż swoją flotę',color=(0,0,0),text_color=(255,255,255))
+message_window = Button(50,150,300,50,text='Ułóż swoją flotę',color=BLACK,text_color=WHITE)
 
 generate_button.draw(WINDOW)
 exit_button.draw(WINDOW)
@@ -77,19 +77,19 @@ class Game:
 
                         if medium_button.is_mouse_over(mouse_position):
                             mode = GameMode.MEDIUM
-                            medium_button.change_color((255,0,0),WINDOW)
-                            easy_button.change_color((255,255,0),WINDOW)
-                            sniper_button.change_color((255,255,0),WINDOW)
+                            medium_button.change_color(RED,WINDOW)
+                            easy_button.change_color(YELLOW,WINDOW)
+                            sniper_button.change_color(YELLOW,WINDOW)
                         if easy_button.is_mouse_over(mouse_position):
                             mode = GameMode.EASY
-                            medium_button.change_color((255,255,0),WINDOW)
-                            easy_button.change_color((255,0,0),WINDOW)
-                            sniper_button.change_color((255,255,0),WINDOW)
+                            medium_button.change_color(YELLOW,WINDOW)
+                            easy_button.change_color(RED,WINDOW)
+                            sniper_button.change_color(YELLOW,WINDOW)
                         if sniper_button.is_mouse_over(mouse_position):
                             mode = GameMode.SNIPER
-                            medium_button.change_color((255,255,0),WINDOW)
-                            easy_button.change_color((255,255,0),WINDOW)
-                            sniper_button.change_color((255,0,0),WINDOW)
+                            medium_button.change_color(YELLOW,WINDOW)
+                            easy_button.change_color(YELLOW,WINDOW)
+                            sniper_button.change_color(RED,WINDOW)
 
                     if state == GameState.BATTLE:
                         if round == RoundMode.PLAYER:
