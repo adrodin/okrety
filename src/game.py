@@ -17,10 +17,11 @@ reset_button = Button(1050, 30, 100, 50, text='Reset')
 generate_button = Button(900,30,100,50, text="Generuj")
 start_button = Button(750,30,100,50, text="Start")
 sniper_button = Button(600,30,120,50, text="Sniper Mode",color=(255,255,0),text_color=(0,0,0))
-medium_button = Button(450,30,140,50, text="Medium Mode",color=(255,255,0),text_color=(0,0,0))
+medium_button = Button(440,30,140,50, text="Medium Mode",color=(255,255,0),text_color=(0,0,0))
 easy_button = Button(300,30,120,50, text="Easy Mode",color=(255,0,0),text_color=(0,0,0))
 player_label = Button(1050, 560, 100, 50, text='Gracz')
 bot_label =  Button(550, 560, 100, 50, text='Bot')
+message_window = Button(50,150,300,50,text='Ułóż swoją flotę',color=(0,0,0),text_color=(255,255,255))
 
 generate_button.draw(WINDOW)
 exit_button.draw(WINDOW)
@@ -31,6 +32,7 @@ easy_button.draw(WINDOW)
 medium_button.draw(WINDOW)
 player_label.draw(WINDOW)
 bot_label.draw(WINDOW)
+message_window.draw(WINDOW)
 
 class Game:
     @staticmethod
@@ -61,6 +63,13 @@ class Game:
                             if player_board.check_ships_position():
                                 state = GameState.BATTLE
                                 bot_board.automatic_ships_generator()
+                                if mode == GameMode.EASY:
+                                    bot = EasyMode(player_board.get_ships())
+                                if mode == GameMode.MEDIUM:
+                                    bot = EasyMode(player_board.get_ships())
+                                if mode == GameMode.SNIPER:
+                                    bot = SniperMode(player_board.get_ships())
+                                round = RoundMode.PLAYER
                             else:
                                 print("jakies error")
                         if medium_button.is_mouse_over(mouse_position):
@@ -79,13 +88,30 @@ class Game:
                             easy_button.change_color((255,255,0),WINDOW)
                             sniper_button.change_color((255,0,0),WINDOW)
 
+                    if state == GameState.BATTLE:
+                        if round == RoundMode.PLAYER:
+                            if bot_board.shot_i(pygame.mouse.get_pos()) ==0:
+                                round = RoundMode.BOT
+                                print('bot powinien strzelic')
+                            if bot_board.check_win():
+                                state = GameState.WAIT
+                                print("wygrana GRACZA")
+
                     if exit_button.is_mouse_over(mouse_position):
                         run = False
 
                     if reset_button.is_mouse_over(mouse_position):
                         pass
 
+            if state == GameState.BATTLE and round == RoundMode.BOT:
+                print('bot strzela')
+                x, y = bot.shot()
 
+                if player_board.shot(x, y) == 0:
+                    round = RoundMode.PLAYER
+                if player_board.check_win():
+                    state = GameState.WAIT
+                    print("wygrana bota")
 
             pygame.display.update()
 
@@ -96,7 +122,12 @@ class Game:
 class GameState(Enum):
     PREPARE = 0
     BATTLE = 1
+    WAIT = 2
 class GameMode(Enum):
     EASY = 0
     MEDIUM = 1
     SNIPER = 2
+
+class RoundMode:
+    PLAYER = 0
+    BOT = 1

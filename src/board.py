@@ -16,17 +16,26 @@ class Board:
             self._can_interact = False
         self._fields = [[Field(x_start+j*40,y_start+i*40,window,player_type) for j in range(10)]for i in range(10)]
         self._ships = []
+
     def get_ships(self):
         return self._ships
+
     def draw_ship(self,position):
         if self._state == Board_state.PREPARE and self._player_type == Players_type.PLAYER:
             for row in self._fields:
                 for e in row:
                     if e.is_mouse_over(position):
-                        e.draw_ship_segment()
+                        return e.draw_ship_segment()
+
+    def shot_i(self,position):
+        for x in range(10):
+            for y in range(10):
+                if self._fields[x][y].is_mouse_over(position):
+                    return self.shot(x,y)
+
 
     def check_ships_position(self):
-
+        self._ships = []
         i_was_here = [ ['no' for _ in range(10) ] for i in range(10)]
         ships_pattern = {
             4 : 1,
@@ -102,7 +111,8 @@ class Board:
         return True
 
     def check_win(self):
-        return len(self._ships == 0)
+        print(len(self._ships))
+        return len(self._ships) == 0
 
     def automatic_ships_generator(self):
         self._fields = [[Field(self._x_start + j * 40, self._y_start + i * 40, self._window, self._player_type) for j in range(10)] for i in range(10)]
