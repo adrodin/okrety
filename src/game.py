@@ -6,6 +6,7 @@ from src.field import Field,Players_type
 from src.board import Board
 from src.bot.sniperMode import SniperMode
 from src.bot.easyMode import EasyMode
+from src.bot.mediumMode import MediumMode
 from enum import Enum
 
 pygame.init()
@@ -17,7 +18,7 @@ reset_button = Button(1050, 30, 100, 50, text='Reset')
 generate_button = Button(900,30,100,50, text="Generuj")
 start_button = Button(750,30,100,50, text="Start")
 sniper_button = Button(600,30,120,50, text="Sniper Mode",color=YELLOW,text_color=BLACK)
-medium_button = Button(440,30,140,50, text="Medium Mode",color=YELLOW,text_color=BLACK)
+medium_button = Button(440,30,140,50, text="Hard Mode",color=YELLOW,text_color=BLACK)
 easy_button = Button(300,30,120,50, text="Easy Mode",color=RED,text_color=BLACK)
 player_label = Button(1050, 560, 100, 50, text='Gracz')
 bot_label =  Button(550, 560, 100, 50, text='Bot')
@@ -66,7 +67,7 @@ class Game:
                                 if mode == GameMode.EASY:
                                     bot = EasyMode(player_board.get_ships())
                                 if mode == GameMode.MEDIUM:
-                                    bot = EasyMode(player_board.get_ships())
+                                    bot = MediumMode(player_board.get_ships())
                                 if mode == GameMode.SNIPER:
                                     bot = SniperMode(player_board.get_ships())
                                 round = RoundMode.PLAYER
