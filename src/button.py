@@ -29,3 +29,12 @@ class Button:
     def change_color(self,color,window):
         self._color = color
         self.draw(window)
+
+    def change_text(self,new_text,window):
+        self._text = new_text
+        self.draw(window)
+
+    def change_text_with_new_color(self,new_text,new_color,window):
+        self._text = new_text
+        self._text_color = new_color
+        self.draw(window)

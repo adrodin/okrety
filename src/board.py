@@ -2,6 +2,7 @@ import pygame
 import random
 from enum import Enum
 from src.field import Field,Field_states,Players_type
+from constants.colors import SEA_COLOR
 
 class Board:
     def __init__(self,x_start,y_start,window,player_type):
@@ -76,7 +77,16 @@ class Board:
                                     ship_len += 1
                                 else:
                                     break
-
+                        self._fields[i][j].change_text_with_new_color(str(ship_len),SEA_COLOR,self._window)
+                        for p in range(ship_len):
+                            if i+p < 10:
+                                if self._fields[i+p][j].get_field_state() == Field_states.SHIP:
+                                    self._fields[i+p][j].change_text_with_new_color(str(ship_len), SEA_COLOR,
+                                                                                  self._window)
+                                if j + p < 10:
+                                    if self._fields[i][j+p].get_field_state() == Field_states.SHIP:
+                                        self._fields[i][j+p].change_text_with_new_color(str(ship_len), SEA_COLOR,
+                                                                                          self._window)
                         if ship_len == 5:
                             return False
                         ships_pattern[ship_len] -= 1
@@ -153,7 +163,6 @@ class Board:
                 if success:
                     self.add_ship(x, y, z, 1)
         self.check_ships_position()
-        print(len(self._ships))
         return True
 
     def can_add_ship(self,x,y,z,size):

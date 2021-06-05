@@ -35,6 +35,7 @@ bot_label.draw(WINDOW)
 message_window.draw(WINDOW)
 
 class Game:
+
     @staticmethod
     def run():
         run = True
@@ -70,8 +71,10 @@ class Game:
                                 if mode == GameMode.SNIPER:
                                     bot = SniperMode(player_board.get_ships())
                                 round = RoundMode.PLAYER
+                                message_window.change_text("Twój strzał",WINDOW)
                             else:
-                                print("jakies error")
+                                message_window.change_text("Błędne ustawienie",WINDOW)
+
                         if medium_button.is_mouse_over(mouse_position):
                             mode = GameMode.MEDIUM
                             medium_button.change_color((255,0,0),WINDOW)
@@ -92,16 +95,19 @@ class Game:
                         if round == RoundMode.PLAYER:
                             if bot_board.shot_i(pygame.mouse.get_pos()) ==0:
                                 round = RoundMode.BOT
-                                print('bot powinien strzelic')
                             if bot_board.check_win():
                                 state = GameState.WAIT
-                                print("wygrana GRACZA")
+                                message_window.change_text("Wygrana gracza",WINDOW)
 
                     if exit_button.is_mouse_over(mouse_position):
                         run = False
 
                     if reset_button.is_mouse_over(mouse_position):
-                        pass
+                        message_window.change_text("Ułóż swoją flotę",WINDOW)
+                        state = GameState.PREPARE
+                        bot_board = Board(400, 150, WINDOW, Players_type.BOT)
+                        player_board = Board(900, 150, WINDOW, Players_type.PLAYER)
+
 
             if state == GameState.BATTLE and round == RoundMode.BOT:
                 print('bot strzela')
@@ -111,7 +117,7 @@ class Game:
                     round = RoundMode.PLAYER
                 if player_board.check_win():
                     state = GameState.WAIT
-                    print("wygrana bota")
+                    message_window.change_text("Wygrana bota",WINDOW)
 
             pygame.display.update()
 
