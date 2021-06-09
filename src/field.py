@@ -6,6 +6,10 @@ class Field(Button):
     def __init__(self, x, y,window,player_type):
         """
         Inicjalizacja pola
+        :param x: pozycja x pola
+        :param y: pozycja y pola
+        :param window: okno w, którym pole będzie wyświetlane
+        :param player_type: typ gracza (PLAYER lub BOT)
         """
         self._window = window
         self._field_state = FieldStates.EMPTY
@@ -17,12 +21,14 @@ class Field(Button):
     def get_field_state(self):
         """
         Zwrócenie statusu pola
+        :return: zwraca jeden z 4 możliwych (FieldStates) stanów pola
         """
         return self._field_state
 
     def hit(self):
         """
         Strzał w pole
+        :return: zwraca 0 jeśli zostało strzelone w pole, 1 jeśli w statek, -1 w pozostałych przypadkach
         """
         if self._can_shoot is True:
             if self._field_state == FieldStates.EMPTY:
@@ -40,6 +46,7 @@ class Field(Button):
     def draw_ship_segment(self):
         """
         Rysowanie segmentu statku
+        :return: 1 gdy nastąpiła zamiana EMPTY->SHIP, -1 gdy SHIP->empty
         """
         if self._field_state == FieldStates.EMPTY:
             self._field_state = FieldStates.SHIP
