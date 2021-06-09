@@ -13,6 +13,7 @@ pygame.init()
 WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
 WINDOW.fill(BACKGROUND_COLOR)
 pygame.display.set_caption("Okrety")
+#inicjalizacja przycisków
 exit_button = Button(1200, 30, 100, 50, text='Wyjście')
 reset_button = Button(1050, 30, 100, 50, text='Reset')
 generate_button = Button(900,30,100,50, text="Generuj")
@@ -66,6 +67,7 @@ class Game:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_position = pygame.mouse.get_pos()
+                    #faza przygotowania - rysowanie statków i wybór poziomu trudności
                     if state == GameState.PREPARE:
                         player_board.draw_ship(mouse_position)
                         if generate_button.is_mouse_over(mouse_position):
@@ -94,7 +96,7 @@ class Game:
                         if sniper_button.is_mouse_over(mouse_position):
                             mode = GameMode.SNIPER
                             change_dificulty(YELLOW,YELLOW,RED)
-
+                    #faza bitwy obsługiwana przez gracza
                     if state == GameState.BATTLE:
                         if round == RoundMode.PLAYER:
                             if bot_board.shot_i(pygame.mouse.get_pos()) ==0:
@@ -105,14 +107,14 @@ class Game:
 
                     if exit_button.is_mouse_over(mouse_position):
                         run = False
-
+                    #reset gry
                     if reset_button.is_mouse_over(mouse_position):
                         message_window.change_text("Ułóż swoją flotę",WINDOW)
                         state = GameState.PREPARE
                         bot_board = Board(400, 150, WINDOW, PlayersType.BOT)
                         player_board = Board(900, 150, WINDOW, PlayersType.PLAYER)
 
-
+            #faza bitwu obsługiwana przez bota
             if state == GameState.BATTLE and round == RoundMode.BOT:
                 x, y = bot.shot()
                 if player_board.shot(x, y) == 0:
