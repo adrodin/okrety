@@ -8,6 +8,7 @@ class EasyMode(Bot):
     def __init__(self,ships):
         """
         Inicjalizacja łatwego bota
+        :param ships: lista staków do zestrzelenia
         """
         super().__init__(ships)
 

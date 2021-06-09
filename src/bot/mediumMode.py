@@ -8,6 +8,7 @@ class MediumMode(Bot):
     def __init__(self,ships):
         """
         Inicjalizacja trudnego bota
+        :param ships: lista staków do zestrzelenia
         """
         super().__init__(ships)
         self._next_shot = []
@@ -15,6 +16,7 @@ class MediumMode(Bot):
     def shot(self):
         """
         Zwraca następny strzał bota
+        :return: x, y - strzał bota
         """
         if len(self._next_shot) == 0:
             x, y = super().shot()
