@@ -8,6 +8,11 @@ class Board:
     def __init__(self,x_start,y_start,window,player_type):
         """
         Inicjalizacja pojedynczej planszy
+
+        :param x_start: x lewego górnego rogu planszy
+        :param  y_start: y lewego górnego rogu planszy
+        :param window: oknow w którym plansza jest wyświetlana
+        :param player_type: określenie kogo jest stół
         """
         self._x_start = x_start
         self._y_start = y_start
@@ -19,12 +24,17 @@ class Board:
     def get_ships(self):
         """
         Zwraca listę segmentów statków
+
+        :return: lista segmentów statków
         """
         return self._ships
 
     def draw_ship(self,position):
         """
         Rysowanie segmentu statku na podstawie położenia myszki
+
+        :param position: pozycja myszki zapisana jako tuple (x,y)
+
         """
         if self._player_type == PlayersType.PLAYER:
             for row in self._fields:
@@ -35,6 +45,9 @@ class Board:
     def shot_i(self,position):
         """
         Analiza strzału oddanego z interfejsu graficznego
+
+        :param position: pozycja myszki zapisana jako tuple (x,y)
+        :return: zwraca 0 jeśli zostało strzelone w pole, 1 jeśli w statek, -1 w pozostałych przypadkach
         """
         for x in range(10):
             for y in range(10):
@@ -45,6 +58,8 @@ class Board:
     def check_ships_position(self):
         """
         Sprawdza poprawność ułożenia statków na planszy
+
+        :return: True jeżeli ułożenie statków jest prawidłowe, False w przeciwnym wypadku
         """
         self._ships = []
         i_was_here = [ ['no' for _ in range(10) ] for i in range(10)]
@@ -125,29 +140,29 @@ class Board:
 
         compare = lambda x: ships_pattern[x] != 0
 
-        #if ships_pattern[1] != 0:
         if compare(1):
             return False
         if compare(2):
-        #if ships_pattern[2] != 0:
             return False
         if compare(3):
-        #if ships_pattern[3] != 0:
             return False
         if compare(4):
-        #if ships_pattern[4] != 0:
             return False
         return True
 
     def check_win(self):
         """
         Sprawdzenie wygranej
+
+        :return: True jeżeli liczba segmentów pozostałych do zestrzelenia wynosi 0, w przeciwnym wypadku False
         """
         return len(self._ships) == 0
 
     def automatic_ships_generator(self):
         """
         Automatyczne generowanie pozycji statków
+
+        :return: True
         """
         self._fields = [[Field(self._x_start + j * 40, self._y_start + i * 40, self._window, self._player_type) for j in range(10)] for i in range(10)]
         self._ships = []
@@ -160,6 +175,12 @@ class Board:
     def can_add_ship(self,x,y,z,size):
         """
         Sprawdzenie możliwości dodania określonego statku w określone miejsce
+
+        :param x: pozycja x pierwszego segmentu
+        :param y: pozycja x pierwszego segmentu
+        :param z: położenie (pionowo czy poziomo)
+        :param size: rozmiar statku
+        :return: True jeżeli można taki statek dodać do planszy, False w przeciwnym wypadku
         """
         if z == 0:
             for i in range(-1, size+1):
@@ -189,6 +210,11 @@ class Board:
     def add_ship(self,x,y,z,size):
         """
         Dodanie statku do planszy
+
+        :param x: pozycja x pierwszego segmentu
+        :param y: pozycja x pierwszego segmentu
+        :param z: położenie (pionowo czy poziomo)
+        :param size: rozmiar statku
         """
         if z == 0:
             for i in range(size):
@@ -200,6 +226,9 @@ class Board:
     def shot(self,x,y):
         """
         Strzał
+        :param x: pozycja x strzału
+        :param y: pozycja y strzału
+        :return: zwraca 0 jeśli zostało strzelone w pole, 1 jeśli w statek, -1 w pozostałych przypadkach
         """
         response = self._fields[x][y].hit()
         if response == 1:
@@ -209,6 +238,9 @@ class Board:
     def generate_random_ship(self,size,numbers):
         """
         Wygenerowanie losowych statków
+
+        :param size: rozmiar statków
+        :param numbers: liczba statków do wygenerowania
         """
         rng = lambda x: random.randrange(11-x)
         for _ in range(numbers):
