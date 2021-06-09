@@ -57,3 +57,9 @@ gry bez ponownego uruchamiania programu.
 
 11. Przegranie gry (np. Przez aktywację super-instynktu gracza komputera).
 Rozpoczęcie nowej gry bez ponownego uruchamiania programu.
+
+# Requirements
+```
+Pygame 2.0.1
+Python 3.8.2
+```
